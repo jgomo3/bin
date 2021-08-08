@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+site=$(recsel -t Password ~/.local/var/pf/passwords.rec -P Site | sort | uniq | fzf)
+
+recsel -t Password ~/.local/var/pf/passwords.rec -e "Site = \"$site\"" -p Site,id
+
+echo "Password for..."
+recsel -t Password ~/.local/var/pf/passwords.rec -e "Site = \"$site\"" -P Password | xsel --clipboard
+echo "Stored in the clipboard"
