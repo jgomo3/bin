@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-site=$(recsel -t Password ~/.local/var/pf/passwords.rec -P Site | sort | uniq | fzf)
-
-recsel -t Password ~/.local/var/pf/passwords.rec -e "Site = \"$site\"" -p Site,id
+master=$(cat ~/master.key)
+site=$(recsel -t Password -s $master -P Resource ~/.local/var/lib/pf/passwords.rec | sort | uniq | fzf)
 
 echo "Password for..."
-recsel -t Password ~/.local/var/pf/passwords.rec -e "Site = \"$site\"" -P Password | xsel --clipboard
+recsel -t Password -s $master -e "Resource = \"$site\"" -p Resource,Id ~/.local/var/lib/pf/passwords.rec
+
+recsel -t Password -s $master -P Password ~/.local/var/lib/pf/passwords.rec -e "Resource = \"$site\"" | xsel --clipboard
 echo "Stored in the clipboard"
