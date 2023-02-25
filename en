@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+sort /usr/share/dict/{american,british}-english | uniq | fzf | xargs dict
